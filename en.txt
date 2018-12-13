@@ -1,187 +1,126 @@
-1. Look at that little boy wandering about — perhaps he _____ his mother.
 
-A. will lose B. is losing
 
-C. had lost D. has lost
 
-2. It’s good that we _____ to the park because it’s started to rain.
 
-A. don’t go B. hadn’t gone
 
-C. didn’t go D. wasn’t going
 
-3. I _____ for five minutes; why don’t they come?
 
-A. am calling B. called
 
-C. was calling D. have been calling
 
-4. You _____ your turn so you’ll have to wait.
 
-A. will miss B. have missed
 
-C. are missing D. had missed
 
-5. We _____ to move but are still considering where to go to.
 
-A. are deciding B. decided
 
-C. have decided D. had decided
 
-6. I left my pen on the desk and now it’s gone; who _____ it?
 
-A. took B. has taken
 
-C. will take D. had taken
 
-7. They won’t buy any new clothes because they _____ money to buy a new car.
 
-A. save B. were saving
 
-C. have saved D. are saving
-
-8. I _____ your last point — could you say it again?
-
-A. didn’t quite catch B. don’t quite catch
-
-C. hadn’t quite catch D. can’t quite catch
-
-9. You’ll never guess who I met today — my old teacher! We _____ for 20 years.
-
-A. don’t meet B. haven’t met
-
-C. hadn’t met D. couldn’t meet
-
-10. I feel sure I _____ her before somewhere.
-
-A. was to meet B. have met
-
-C. had met D. would meet
-
-11. They haven’t arrived yet but we _____ them at any moment.
-
-A. are expected B. have expected
-
-C. are expecting D. will expect
-
-12. I think you must be mistaken about seeing him at the theatre; I’m sure he _____ abroad all week.
-
-A. is B. was
-
-C. has been D. had been
-
-13. The students _______ busily when Miss Brown went to get a book she _______ in the office.
-
-A. had written, left  B. were writing, has left
-
-C. had written, had left  D. were writing, had left
-
-14. I tried to phone her, but even as I _____ she was leaving the building.
-
-A. phoned B. would phone
-
-C. had phoned D. was phoning
-
-15. “I suppose you _____ that report yet?” “I finished it yesterday, as a matter of fact.”
-
-A. didn’t finish B. haven’t finished
-
-C. hadn’t finished D. wasn’t finishing
-
-16. —Didn’t the guard see him breaking into the bank?
-
-—No, he _______ in the other direction.
-
-A. was looking B. had looked
-
-C. looked D. is looking
-
-17. How can you possibly miss the news? It _______ on TV all day long.
-
-A. has been B. had been
-
-C. was D. will be
-
-18. “I thought you might have got drunk.” “Yes, I ______.”
-
-A. almost have B. almost had
-
-C. almost did D. might have
-
-19. You ______ television. Why not do something more active?
-
-A. always watch B. are always watching
-
-C. have always watched D. have always been watching
-
-20. “I took part in the TOEFL. It was really hard.” “Did you ______ a lot?”
-
-A. Have you studied B. Did you study
-
-C. Had you studied D. Do you study
-
-21. “What’s your opinion on the matter, please?” “Oh, sorry, I _______.”
-
-A. wasn’t to listen B. haven’t listened
-
-C. wasn’t listening D. hadn’t listened
-
-22. “Aha, you’re a chain smoker!” “Only at home. Nobody _______ that but you.”
-
-A. discovered B. had discovered
-
-C. discovers D. is discovering
-
-23. The telephone _______ three times in the last hour, and each time it ________ for my father.
-
-A. had rang; was B. has rung; was
-
-C. rang; has been D. has been ringing; is
-
-24. The thief tried to break away from the policeman who ______ him, but failed.
-
-A. has held B. had held
-
-C. was holding D. would hold
-
-25. When I arrived at the company, the manager ______, so we had only time for a few words.
-
-A. just went away B. had gone away
-
-C. was just going away D. has just gone away
-
-26. “John took a photograph of you just now.” “Oh, really? I ______.”
-
-A. didn’t know B. wasn’t knowing
-
-C. don’t know D. haven’t known
-
-27. “Mike is not coming to the football game this afternoon.” “It’s a shame! He _______!”
-
-A. promises B. promised
-
-C. will promise D. had promised
-
-28. Please call again. Jim _______ a bath just now.
-
-A. has had B. was having
-
-C. is having D. has
-
-29. “Was Andrew there when you arrived?” “Yes, but he ______ home soon afterwards.”
-
-A. had gone B. has gone
-
-C. is going D. went
-
-30. “Where is Mother.” “She is in the kitchen. She _______ the housework all morning.”
-
-A. is doing B. was doing
-
-C. has done D. has been doing
-
-31. The books, ________ the dictionaries, must be put back where they ________.
-
-A. included; were B. to include; are
-
-C. including; were D. including; are
+定语从句专项练习50题
+1.The place ___c____interested me most was the Children's Palace.
+A. Which B. where C. what D. in which
+2. Do you know the man ____d___?
+A. whom I spoke B. to who spoke C. I spoke to D. that I spoke
+3.This is the hotel ____a___last month.	
+A. which they stayed B. at that they stayed
+C. where they stayed at D. where they stayed
+4. Do you know the year ___c___the Chinese Communist Party was founded?
+A. which B. that C. when D. on which
+5. That is the day ___a___I'll never forget.
+A. which B. on which C. in which D. when
+6. The factory __b____we'll visit next week is not far from here.
+A. where B. to which C. which D. in which
+7. Great changes have taken place since then in the factory_b_we are working.
+A. where B. that C. which D. there
+8. This is one of the best films ___c____.
+A. that have been shown this year B. that have shown
+C. that has been shown this year D. that you talked
+9. Can you lend me the book ___b___the other day?
+A. about which you talked B. which you talked
+C. about that you talked D. that you talked
+10. The pen ______he is writing is mine.
+A. with which B. in which C. on which D. by which
+11.They arrived at a farmhouse, in front of ___d___sat a small boy.
+A. whom B. who C. which D. that
+12. The engineer ___d___my father works is about 50 years old.
+A. to whom B. on whom C. with which D. with whom
+13. It there anyone in your class ___d___family is in the country?
+A. who B. who's C. which D. whose
+14. I'm interested in ___c___you have said.
+A. all that B. all what C. that D. which
+15. I want to use the same dictionary ___a___was used yesterday.
+A. which B. who C. what D. as
+16. He isn't such a man ___d___he used to be.
+A. who B. whom C. that D. as
+17. He is good at English, ___a___we all know.
+A. that B. as C. whom D. what
+18. Li Ming, ______to the concert enjoyed it very much.
+A. I went with B. with whom I went C. with who I went D.I went with him
+19. I don't like ___b___ as you read.
+A. the novels B. the such novels C. such novels D. same novels
+20. He talked a lot about things and persons_b_they remembered in the school.
+A. which B. that C. whom D. what
+21. The letter is from my sister, ___c___is working in Beijing.
+A. which B. that C. whom D. who
+22. In our factory there are 2,000 workers, two thirds of ____are women.
+A. them B. which C. whom D. who
+23. You're the only person ______I've ever met ______could do it.
+A. who;/ B./; whom C. whom;/ D./; who
+24. I lost a book, ______I can't remember now.
+A. whose title B. its title C. the title of it D. the title of that
+25. Last summer we visited the West Lake,______Hangzhou is famous in the world. A. for which B. for that C. in which D. what
+26. I have bought such a watch _______ was advertised on TV.
+A. that B. which C. as D. it
+27. I can never forget the day _______ we worked together and the day ______ we spent together.
+A. when; which B. which; when C. what; that D. on which; when
+28. The way ______he looks at problems is wrong.
+A. which B. whose C. what D./
+29. This is the reason ______he didn't come to the meeting.
+A. in which B. with which C. that D. for which
+30. This machine, ______for many years, is still working perfectly.
+A. after which I have looked B. which I have looked after
+C. that I have looked after D. I have looked after
+31. The reason ______he didn't come was ______he was ill.
+A. why; that B. that; why C. for that; that D. for which; what
+32. He is working hard, ______will make him pass the final exam.
+A. that B. which C. for which D. who
+33. That is not the way ______I do it.
+A. / B. which C. for which D. with which
+34. I have two grammars, ______are of great use.
+A. all of which B. either of which C. both of that D. both of which
+35 I want to use the same tools _______used in your factory a few days ago.
+A. as was B. which was C. as were D. which
+36. My neighbours used to give me a hand in time of trouble, _____ was very kind of them.
+A. who B. which C. that D. it 
+37. This is the magazine _______ I copied the paragraph.
+A. that B. which C. from that D. from which 
+38. He is not such a man _______ would leave his work half done.
+A. that B. which C. who D. as 
+39. You can depend on whatever promise _______ he makes.
+A. / B. why C. when D. whose 
+40. Smoking, _______ is a bad habit, is, however, popular.
+A. that B. which C. it D. though 
+41. --- Did you ask the guard _______ happened?
+--- Yes, he told me all _______ he knew.
+A. what; that B. what; what C. which; which D. that; that 
+42. I shall never forget those years _______ I lived on the farm with the farmers, _______ has a great effect on my life.
+A. when; who B. that; which C. which; that D. when; which 
+43. The number of the people who _______ cars _______ increasing.
+A. owns; are B. owns; is C. own; is D. own; are 
+44. During the days ________, he worked as a servant at the Browns.
+A. followed B. following C. to follow D. that followed 
+45. Is oxygen the only gas _______ helps fire burn? 
+A. that B. / C. which D. it 
+46. The clever boy made a hole in the wall, _______ he could see _____ was going on inside house.
+A. which; what B. through which; what 
+C. through that; what D. what; that 
+47. Is _______ some German friends visited last week?
+A. this school B. this the school C. this school one D. this school where 
+48. John got beaten in the game, _______ had been expected.
+A. as B. that C. what D. who 
+49. I have bought two ballpens, _______ writes well.
+A. none of them B. neither of them C. neither of which D. none of which 
+50. All that can be eaten _______ eaten up.
+A. are being B. has been C. had been D. have been

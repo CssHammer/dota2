@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/mongodb/mongo-go-driver/mongo"
 	"net/http"
+	"net/url"
 )
 
 type S struct {
@@ -23,7 +24,17 @@ type Games struct {
 }
 
 func main() {
-	findHeros()
+	addr := "http://api.steampowered.com/IDOTA2Match_570/GetMatchDetails/v1?key=D524A0B32AECE6B5986B5EFCF09AA58D&match_id=4267110473"
+
+	u, err := url.Parse(addr)
+	q := u.Query()
+
+	q.Add("key", "123")
+	q.Set("pwd", "qqq")
+
+
+	ss := q.Encode()
+	fmt.Println(q, ss)
 	return
 
 	resp, err := http.Get("http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=D524A0B32AECE6B5986B5EFCF09AA58D&steamid=76561198089945191&format=json")
