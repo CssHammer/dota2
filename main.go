@@ -2,11 +2,9 @@ package main
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
+	"github.com/allbuleyu/dota2/core"
 	"github.com/mongodb/mongo-go-driver/mongo"
-	"net/http"
-	"net/url"
 )
 
 type S struct {
@@ -24,37 +22,7 @@ type Games struct {
 }
 
 func main() {
-	addr := "http://api.steampowered.com/IDOTA2Match_570/GetMatchDetails/v1?key=D524A0B32AECE6B5986B5EFCF09AA58D&match_id=4267110473"
-
-	u, err := url.Parse(addr)
-	q := u.Query()
-
-	q.Add("key", "123")
-	q.Set("pwd", "qqq")
-
-
-	ss := q.Encode()
-	fmt.Println(q, ss)
-	return
-
-	resp, err := http.Get("http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=D524A0B32AECE6B5986B5EFCF09AA58D&steamid=76561198089945191&format=json")
-
-	s := S{Response:R{}}
-	// 直接用json流解析
-	err = json.NewDecoder(resp.Body).Decode(&s)
-
-	fmt.Println(err, s)
-
-
-
-	// 直接用struct 转为json
-	//err = json.NewEncoder(os.Stdout).Encode(&s)
-	//fmt.Println(err)
-
-	r := R{}
-	err = json.NewDecoder(resp.Body).Decode(&r)
-	fmt.Println(err, r)
-
+	core.GetMatchDetail("4267110473")
 }
 
 

@@ -13,8 +13,13 @@ type CommonParam struct {
 
 func commonFormatJsonParams(rawurl string) (string, error) {
 	u, err := url.Parse(rawurl)
+	if err != nil {
+		return "", err
+	}
 	query := u.Query()
 
 	query.Add("key", config.GetWebApiKey())
 	query.Add("format", "json")
+
+	return "", nil
 }

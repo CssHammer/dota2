@@ -1,6 +1,7 @@
 package core
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/allbuleyu/dota2/config"
 	"github.com/allbuleyu/dota2/enum"
@@ -137,7 +138,7 @@ type PicksBansOfMatch struct {
 //0 0 0 0 0 0 0 0
 type PlayersOfMatch struct{
 	Account_id int64
-	Player_slot int8
+	Player_slot uint8
 	Hero_id uint8
 	Item_0 int
 	Item_1 int
@@ -171,22 +172,52 @@ func GetMatchDetail(matchid string) {
 	// step 1	?key=D524A0B32AECE6B5986B5EFCF09AA58D&match_id=4267110473
 	addr := "http://api.steampowered.com/IDOTA2Match_570/GetMatchDetails/v1"
 
+	// add query
 	u, err := url.Parse(addr)
 	query := u.Query()
 	query.Add("key", config.GetWebApiKey())
 	query.Add("match_id", matchid)
-	addr = query.Encode()
+	u.RawQuery=query.Encode()
+	addr = u.String()
 
 	// step 2  format the parameter
 	req, err := http.NewRequest("GET", addr, nil)
+	if err != nil {
+		panic(err)
+	}
+	httpClient := http.DefaultClient
+	resp, err := httpClient.Do(req)
+	defer resp.Body.Close()
 
-	host := req.Header.Get("Host")
 
-	http.DefaultClient.Get()
+	//result := map[string]interface{}{
+	//	"result":ResultOfMatch{},
+	//}
+
+	res := struct {
+		Result ResultOfMatch
+	}{}
+
+	err = json.NewDecoder(resp.Body).Decode(&res)
+
+	if err != nil {
+		fmt.Println("decode false by:", err)
+		panic(err)
+	}
+
+	// mongo
+	client, err := config.NewMongoClient("")
+	client.Database("")
+
+	// not done
+	// store match detail
+	match := res.Result
 
 
-	fmt.Println(host, err)
+	// store players detail
+	players := res.Result.Players
 
+	// https://yq.aliyun.com/articles/69662 没弄明白最后一个例子
 
 
 }
