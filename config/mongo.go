@@ -1,6 +1,11 @@
 package config
 
-import "github.com/mongodb/mongo-go-driver/mongo"
+import (
+	"github.com/mongodb/mongo-go-driver/mongo"
+	"time"
+)
+
+const CtxTimeOutDuration time.Duration = 30 * time.Second
 
 type MongoConfig struct {
 	Host string

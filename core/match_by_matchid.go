@@ -1,12 +1,17 @@
 package core
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"github.com/allbuleyu/dota2/config"
 	"github.com/allbuleyu/dota2/enum"
+	"github.com/mongodb/mongo-go-driver/bson"
+	"github.com/mongodb/mongo-go-driver/mongo"
 	"net/http"
 	"net/url"
+	"strconv"
+	"time"
 )
 
 
@@ -49,19 +54,19 @@ type ResultOfMatch struct{
 	Radiant_win bool `json:"radiant_win"`
 
 	//The length of the match, in seconds since the match began.
-	Duration int
+	Duration int64
 
 	//
-	Pre_game_duration int
+	Pre_game_duration int64
 
 	// Unix timestamp of when the match began.
-	Start_time int
+	Start_time int64
 
 	// The matches unique ID.
-	Match_id int
+	Match_id int64
 
 	// A 'sequence number', representing the order in which matches were recorded.
-	Match_seq_num int
+	Match_seq_num int64
 
 	// See #Tower Status below.
 	Tower_status_radiant uint16
@@ -108,8 +113,32 @@ type ResultOfMatch struct{
 	// The team dire was killed
 	Dire_score int
 
+	//
+	Radiant_team_id int
+
+	Radiant_name string
+
+	Radiant_logo int64
+
+	Radiant_team_complete int
+
+	// captain of radiant steamid
+	Radiant_captain int64
+
+	//
+	Dire_team_id int
+
+	Dire_name string
+
+	Dire_logo int64
+
+	Dire_team_complete int
+
+	// captain of dire steamid
+	Dire_captain int64
+
 	// A list of the picks and bans in the match, if the game mode is Captains Mode. (Ranked Matchmaking also has)
-	Picks_bans []PicksBansOfMatch
+	Picks_bans []PicksBansOfMatch `json:"picks_bans"`
 
 	Players []PlayersOfMatch `json:"players"`
 }
@@ -125,6 +154,9 @@ type PicksBansOfMatch struct {
 
 	// The order of which the picks and bans were selected;0-21
 	Order int
+
+	// Match_id
+	Match_id int64
 }
 
 //Player Slot
@@ -137,6 +169,9 @@ type PicksBansOfMatch struct {
 //│ │ │ │ │ │ │ │
 //0 0 0 0 0 0 0 0
 type PlayersOfMatch struct{
+	// matchid
+	Match_id int64
+
 	Account_id int64
 	Player_slot uint8
 	Hero_id uint8
@@ -166,9 +201,60 @@ type PlayersOfMatch struct{
 	Scaled_hero_damage int
 	Scaled_tower_damage int
 	Scaled_hero_healing int
+
+	//
+	Ability_upgrades []AbilityUpgrades
 }
 
-func GetMatchDetail(matchid string) {
+type AbilityUpgrades struct {
+	// Account_id
+	Account_id int64
+
+	// matchid
+	Match_id int64
+
+	// ability id
+	Ability int64
+
+	// upgrade time of ability
+	Time time.Duration
+
+	// level of hero
+	Level int64
+}
+
+func GetMatchDetail(matchid int64) {
+	// mongo
+	client, err := config.NewMongoClient("")
+	if err != nil {
+		fmt.Println("new client is failure", err)
+		return
+	}
+	ctx, cancel := context.WithTimeout(context.Background(), config.CtxTimeOutDuration)
+	err = client.Connect(ctx)
+	if err != nil {
+		fmt.Println("client connect is failure", err)
+		return
+	}
+	db := client.Database("d2log")
+	collection := db.Collection("data_matchs")
+
+	defer cancel()
+	filter := bson.M{"Match_id": matchid}
+
+
+	isExist := ResultOfMatch{}
+	err = collection.FindOne(ctx, filter).Decode(&isExist)
+	if err != nil && err != mongo.ErrNoDocuments {
+		fmt.Println("find match is failure:", err)
+		return
+	}
+
+	//if isExist.Match_id != 0 {		// exist
+	//	fmt.Println("this match is exist, matchid = ", matchid)
+	//	return
+	//}
+
 	// step 1	?key=D524A0B32AECE6B5986B5EFCF09AA58D&match_id=4267110473
 	addr := "http://api.steampowered.com/IDOTA2Match_570/GetMatchDetails/v1"
 
@@ -176,48 +262,116 @@ func GetMatchDetail(matchid string) {
 	u, err := url.Parse(addr)
 	query := u.Query()
 	query.Add("key", config.GetWebApiKey())
-	query.Add("match_id", matchid)
+	query.Add("match_id", strconv.FormatInt(matchid, 10))
 	u.RawQuery=query.Encode()
 	addr = u.String()
 
 	// step 2  format the parameter
 	req, err := http.NewRequest("GET", addr, nil)
 	if err != nil {
-		panic(err)
+		fmt.Println("http new request is failure:", err)
+		return
 	}
 	httpClient := http.DefaultClient
 	resp, err := httpClient.Do(req)
 	defer resp.Body.Close()
+	if err != nil {
+		fmt.Println("http get is failure:", err)
+		return
+	}
+
+	// json decoder
+	decoder := json.NewDecoder(resp.Body)
 
 
-	//result := map[string]interface{}{
-	//	"result":ResultOfMatch{},
-	//}
-
+	// step 3
+	// store match detail start
 	res := struct {
 		Result ResultOfMatch
 	}{}
-
-	err = json.NewDecoder(resp.Body).Decode(&res)
-
+	err = decoder.Decode(&res)
 	if err != nil {
-		fmt.Println("decode false by:", err)
-		panic(err)
+		fmt.Println("decode failure:", err)
+		return
 	}
 
-	// mongo
-	client, err := config.NewMongoClient("")
-	client.Database("")
-
-	// not done
-	// store match detail
 	match := res.Result
 
+	players := match.Players
+	picksbans := match.Picks_bans
 
-	// store players detail
-	players := res.Result.Players
+	match.Players = nil
+	match.Picks_bans = nil
 
-	// https://yq.aliyun.com/articles/69662 没弄明白最后一个例子
 
+	oneRes, err := collection.InsertOne(ctx, match)
+	if err != nil {
+		fmt.Println("match insert is failure:", err)
+		return
+	}
+	fmt.Println(oneRes.InsertedID)
+	// match end
+
+
+	// store players start
+	mData := make([]interface{}, 0)
+
+	mAbilityUpData := make([]interface{}, 0)
+	for i := range players {
+		players[i].Match_id = matchid
+
+		// 每个玩家所持英雄技能加点信息
+		for _, v := range players[i].Ability_upgrades {
+			v.Match_id = matchid
+			v.Account_id = players[i].Account_id
+
+			mAbilityUpData = append(mAbilityUpData, v)
+		}
+
+		players[i].Ability_upgrades = nil
+		mData = append(mData, players[i])
+	}
+
+	rp, err := db.Collection("data_players").InsertMany(ctx, mData)
+	if err != nil {
+		fmt.Println("players insert failure: ", err)
+		return
+	}
+	fmt.Println("_id:", rp.InsertedIDs)
+
+
+	resAbility, err := db.Collection("data_ability_upgrades").InsertMany(ctx, mAbilityUpData)
+	if err != nil {
+		fmt.Println("data_ability_upgrades insert failure: ", err)
+		return
+	}
+	fmt.Println("_id:", resAbility.InsertedIDs)
+
+	// store players end
+
+	// store picksbans start
+	mData = make([]interface{}, 0)
+	for i := range picksbans {
+
+		picksbans[i].Match_id = matchid
+		mData = append(mData, picksbans[i])
+	}
+
+	// the match not have picks bans (random draft)
+	if len(picksbans) == 0 {
+		return
+	}
+
+	respb, err := db.Collection("data_picksbans").InsertMany(ctx, mData)
+	fmt.Println("_id:", respb.InsertedIDs)
+	if err != nil {
+		fmt.Println("picksbans insert failure: ", err)
+		return
+	}
+	// store picksbans end
+
+	// store
+
+	// store end
 
 }

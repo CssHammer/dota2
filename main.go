@@ -22,7 +22,7 @@ type Games struct {
 }
 
 func main() {
-	core.GetMatchDetail("4267110473")
+	core.GetMatchDetail(4262769848)
 }
 
 
