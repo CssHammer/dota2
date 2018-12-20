@@ -156,7 +156,7 @@ type PicksBansOfMatch struct {
 	Order int
 
 	// Match_id
-	Match_id int64
+	Match_id int64 `json:"-"`
 }
 
 //Player Slot
@@ -170,7 +170,7 @@ type PicksBansOfMatch struct {
 //0 0 0 0 0 0 0 0
 type PlayersOfMatch struct{
 	// matchid
-	Match_id int64
+	Match_id int64 `json:"-"`
 
 	Account_id int64
 	Player_slot uint8
@@ -208,10 +208,10 @@ type PlayersOfMatch struct{
 
 type AbilityUpgrades struct {
 	// Account_id
-	Account_id int64
+	Account_id int64 `json:"-"`
 
 	// matchid
-	Match_id int64
+	Match_id int64	`json:"-"`
 
 	// ability id
 	Ability int64
@@ -282,7 +282,6 @@ func GetMatchDetail(matchid int64) {
 
 	// json decoder
 	decoder := json.NewDecoder(resp.Body)
-
 
 	// step 3
 	// store match detail start
