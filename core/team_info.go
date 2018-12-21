@@ -52,6 +52,7 @@ type TeamInfo struct {
 
 // startTeamId The. team id to start returning results from.
 // teamsRequested. The amount of teams to return.
+// 通过比赛的战队ID查找战队信息才不会有战队ID出错的情况
 func GetTeamsInfo()  {
 	client, _ := config.NewMongoClient("")
 	ctx, _ := context.WithTimeout(context.Background(), config.CtxTimeOutDuration)
