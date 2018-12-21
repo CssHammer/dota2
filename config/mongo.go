@@ -14,6 +14,14 @@ type MongoConfig struct {
 	AuthType string
 }
 
+func GetMongoUri() string {
+	return "mongodb://192.168.1.90:27017"
+}
+
 func NewMongoClient(uri string) (*mongo.Client, error) {
-	return mongo.NewClient("mongodb://192.168.1.90:27017")
+	if uri == "" {
+		uri = GetMongoUri()
+	}
+
+	return mongo.NewClient(uri)
 }

@@ -1,9 +1,11 @@
 package core
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"github.com/allbuleyu/dota2/config"
+	"github.com/mongodb/mongo-go-driver/bson"
 	"net/http"
 	"strconv"
 	"time"
@@ -50,7 +52,17 @@ type TeamInfo struct {
 
 // startTeamId The. team id to start returning results from.
 // teamsRequested. The amount of teams to return.
-func GetTeamsInfo(startTeamId, teamsRequested int64)  {
+func GetTeamsInfo()  {
+	client, _ := config.NewMongoClient("")
+	ctx, _ := context.WithTimeout(context.Background(), config.CtxTimeOutDuration)
+
+	filter := bson.M{}
+	lastOne := client.Database("d2log").Collection("data_teams").FindOne(ctx, filter)
+	teamInfo := TeamInfo{}
+	lastOne.Decode(&teamInfo)
+
+	var startTeamId, teamsRequested int64
+	startTeamId = teamInfo.Team_id + 1
 	addr := "https://api.steampowered.com/IDOTA2Match_570/GetTeamInfoByTeamID/v1/"
 	query := map[string]string{
 		"start_at_team_id": strconv.FormatInt(startTeamId, 10),
@@ -69,5 +81,38 @@ func GetTeamsInfo(startTeamId, teamsRequested int64)  {
 	// decoder
 	decoder := json.NewDecoder(resp.Body)
 
+	result := struct {
+		Result struct{
+			Teams []TeamInfo
+			Status int64
+		}
+	}{}
 
+	err = decoder.Decode(&result)
+	if err != nil {
+		fmt.Println("decode err :", err)
+		return
+	}
+
+	teams := result.Result.Teams
+	if len(teams) == 0 {
+		fmt.Println("teams is empty by idstart", startTeamId)
+		return
+	}
+
+
+	insertData := make([]interface{}, 0)
+	for i := range teams {
+		teams[i].Team_id = startTeamId + int64(i)
+		insertData = append(insertData, teams[i])
+	}
+
+
+	err = client.Connect(ctx)
+	if err != nil {
+		fmt.Println("client connect err", err)
+	}
+
+	dbRes, err := client.Database("d2log").Collection("data_teams").InsertMany(ctx, insertData)
+	fmt.Println(dbRes.InsertedIDs)
 }
