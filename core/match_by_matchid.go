@@ -90,7 +90,7 @@ type ResultOfMatch struct{
 
 	// The league that this match was a part of. A list of league IDs can be found via the GetLeagueListing method.
 	// https://wiki.teamfortress.com/wiki/WebAPI/GetLeagueListing
-	Leagueid int
+	Leagueid int64
 
 	// The number of thumbs-up the game has received by users.
 	Positive_votes int
@@ -114,7 +114,7 @@ type ResultOfMatch struct{
 	Dire_score int
 
 	//
-	Radiant_team_id int
+	Radiant_team_id int64
 
 	Radiant_name string
 
@@ -126,7 +126,7 @@ type ResultOfMatch struct{
 	Radiant_captain int64
 
 	//
-	Dire_team_id int
+	Dire_team_id int64
 
 	Dire_name string
 
@@ -141,6 +141,10 @@ type ResultOfMatch struct{
 	Picks_bans []PicksBansOfMatch `json:"picks_bans"`
 
 	Players []PlayersOfMatch `json:"players"`
+
+	// create time
+	Time_stamp int64
+
 }
 
 type PicksBansOfMatch struct {
@@ -157,6 +161,12 @@ type PicksBansOfMatch struct {
 
 	// Match_id
 	Match_id int64 `json:"-"`
+
+	//
+	Team_id int64 `json:"-"`
+
+	// league_id
+	Leagueid int64 `json:"-"`
 }
 
 //Player Slot
@@ -214,7 +224,7 @@ type AbilityUpgrades struct {
 	Match_id int64	`json:"-"`
 
 	// ability id
-	Ability int64
+	Ability_id int64 `json:"ability"`
 
 	// upgrade time of ability
 	Time time.Duration
@@ -231,6 +241,8 @@ func GetMatchDetail(matchid int64) {
 		return
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), config.CtxTimeOutDuration)
+	defer cancel()
+
 	err = client.Connect(ctx)
 	if err != nil {
 		fmt.Println("client connect is failure", err)
@@ -239,7 +251,7 @@ func GetMatchDetail(matchid int64) {
 	db := client.Database("d2log")
 	collection := db.Collection("data_matchs")
 
-	defer cancel()
+
 	filter := bson.M{"Match_id": matchid}
 
 
