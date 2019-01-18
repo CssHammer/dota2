@@ -3,7 +3,6 @@ package core
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"github.com/allbuleyu/dota2/config"
 	"github.com/mongodb/mongo-go-driver/bson"
 	"github.com/mongodb/mongo-go-driver/options"
@@ -23,9 +22,11 @@ func GetLastSeqNum() int64 {
 	last_math_doc := client.Database("d2log").Collection("data_matches").FindOne(ctx, nil, oneOptions)
 
 	match := new(ResultOfMatch)
+
+	log := config.Logger()
 	err := last_math_doc.Decode(match)
 	if err != nil {
-		fmt.Println(err)
+		log.Error(err)
 		return 0
 	}
 
@@ -41,12 +42,15 @@ func GetMatchHistoryBySeqNum(matches_requested int64)  {
 	querys["matches_requested"] = strconv.FormatInt(matches_requested, 10)
 	addr = config.Addr(addr, querys)
 
+	log := config.Logger()
 	req, _ := http.NewRequest("GET", addr, nil)
 
 	client := http.DefaultClient
 	resp, err := client.Do(req)
+	defer resp.Body.Close()
+
 	if err != nil {
-		fmt.Println("http request err ", err)
+		log.Error("http request err ", err)
 		return
 	}
 	decoder := json.NewDecoder(resp.Body)
@@ -60,7 +64,7 @@ func GetMatchHistoryBySeqNum(matches_requested int64)  {
 	decoder.Decode(&res)
 
 	if len(res.Result.Matches) == 0 {
-		fmt.Println("get Matches = 0, so quit")
+		log.Error("get Matches = 0, so quit")
 		return
 	}
 
@@ -82,7 +86,7 @@ func StoreMatches(ctx context.Context, matches []ResultOfMatch)  {
 		for pi := range match.Players {
 			player := &match.Players[pi]
 			player.Match_id = match_id
-			
+
 			for ai := range player.Ability_upgrades {
 				ability := player.Ability_upgrades[ai]
 				ability.Match_id = match_id
@@ -91,7 +95,7 @@ func StoreMatches(ctx context.Context, matches []ResultOfMatch)  {
 				abilities = append(abilities, ability)
 			}
 			player.Ability_upgrades = nil
-			
+
 			players = append(players, *player)
 		}
 
@@ -116,14 +120,16 @@ func StoreMatches(ctx context.Context, matches []ResultOfMatch)  {
 
 
 	client, err := config.NewMongoClient("")
+	log := config.Logger()
+
 	if err != nil {
-		fmt.Println("client err", err)
+		log.Error("client err", err)
 		return
 	}
 	ctx,_ = context.WithTimeout(context.Background(), config.CtxTimeOutDuration)
 	err = client.Connect(ctx)
 	if err != nil {
-		fmt.Println("connect err", err)
+		log.Error("connect err", err)
 		return
 	}
 
@@ -155,35 +161,35 @@ func StoreMatches(ctx context.Context, matches []ResultOfMatch)  {
 
 	resMatches, err := db.Collection("data_matches").InsertMany(ctx, insertMatches)
 	if err != nil {
-		fmt.Println("insert data_matches err", err)
+		log.Error("insert data_matches err", err)
 		return
 	}
-	fmt.Println("isnerted data_matches:", len(resMatches.InsertedIDs))
+	log.Error("isnerted data_matches:", len(resMatches.InsertedIDs))
 
 	//ctxPlayers, _ := context.WithTimeout(context.Background(), config.CtxTimeOutDuration)
 	//resPlayers, err := db.Collection("data_players").InsertMany(ctxPlayers, insertPlayers)
 	resPlayers, err := db.Collection("data_players").InsertMany(ctx, insertPlayers)
 	if err != nil {
-		fmt.Println("insert data_players err", err)
+		log.Error("insert data_players err", err)
 		return
 	}
-	fmt.Println("isnerted data_players:", len(resPlayers.InsertedIDs))
+	log.Error("isnerted data_players:", len(resPlayers.InsertedIDs))
 
 	//ctxPicksBans, _ := context.WithTimeout(context.Background(), config.CtxTimeOutDuration)
 	//resPicksBans, err := db.Collection("data_picksbans").InsertMany(ctxPicksBans, insertPicksBans)
 	resPicksBans, err := db.Collection("data_picksbans").InsertMany(ctx, insertPicksBans)
 	if err != nil {
-		fmt.Println("insert data_picksbans err", err)
+		log.Error("insert data_picksbans err", err)
 		return
 	}
-	fmt.Println("isnerted data_picksbans:", len(resPicksBans.InsertedIDs))
+	log.Error("isnerted data_picksbans:", len(resPicksBans.InsertedIDs))
 
 	//ctxAbilities, _ := context.WithTimeout(context.Background(), config.CtxTimeOutDuration)
 	//resAbilities, err := db.Collection("data_ability_upgrades").InsertMany(ctxAbilities, insertAbilities)
 	resAbilities, err := db.Collection("data_ability_upgrades").InsertMany(ctx, insertAbilities)
 	if err != nil {
-		fmt.Println("insert data_ability_upgrades err", err)
+		log.Error("insert data_ability_upgrades err", err)
 		return
 	}
-	fmt.Println("isnerted data_ability_upgrades:", len(resAbilities.InsertedIDs))
+	log.Error("isnerted data_ability_upgrades:", len(resAbilities.InsertedIDs))
 }

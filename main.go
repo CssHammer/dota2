@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+	"github.com/allbuleyu/dota2/config"
 	"github.com/allbuleyu/dota2/core"
 )
 
@@ -19,6 +21,25 @@ type Games struct {
 }
 
 func main() {
+	i := 9999
+
+	and := func(x int) int {
+		countX := 0
+		for x>0 {
+			countX++
+			x=x&(x-1)
+		}
+		return countX
+	}
+
+
+	fmt.Println(fmt.Sprintf("%b", i), and(i))
+	return
+
+	log := config.Logger()
+
+	log.Error("奥德赛发生的发送大发是打发斯蒂芬sss")
+	return
 
 	core.GetMatchHistoryBySeqNum(100)
 	return
